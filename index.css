@@ -2,8 +2,8 @@
 *::after,
 *::before {
     box-sizing: border-box;
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
 html,
@@ -11,37 +11,36 @@ body {
     background-image: url("img/table.png");
     background-size: cover;
     font-family: "Exo 2", sans-serif;
-    height: 100vh;
 }
 
-body {
+.container {
+    min-height: 100vh;
+    min-width: 280px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    gap: 0.6em;
     color: white;
-    text-align: center;
 }
 
 .top {
     display: flex;
     align-items: center;
-    gap: 10px;
     align-self: flex-start;
+    gap: 0.6em;
 }
 
-button {
-    font-family: "Exo 2", sans-serif;
+.btn {
     background-color: yellow;
+    font-family: "Exo 2", sans-serif;
     border: none;
+    padding: 0.5em;
     cursor: pointer;
-    padding: 5px;
 }
-
-.new-deck { align-self: flex-start; }
 
 .draw-cards {
-    font-size: 1.2em;
+    font-size: 1.2rem;
     align-self: stretch;
 }
 
@@ -57,4 +56,6 @@ button {
     height: 100%;
 }
 
-button:disabled { pointer-events: none; }
+.btn:disabled {
+    pointer-events: none;
+}
