@@ -1,6 +1,12 @@
 const url = "https://apis.scrimba.com/deckofcards/api/deck"
-const drawCardsBtn = document.getElementById("draw-cards")
-const cardsRemainingText = document.getElementById("cards-remaining")
+const newDeckEl = document.getElementById("new-deck")
+const cardsRemainingEl = document.getElementById("cards-remaining")
+const headerEl = document.getElementById("header")
+const computerScoreEl = document.getElementById("computer-score")
+const computerCardEl = document.getElementById("computer-card")
+const myScoreEl = document.getElementById("my-score")
+const myCardEl = document.getElementById("my-card")
+const drawCardsEl = document.getElementById("draw-cards")
 
 let computerScore = 0
 let myScore = 0
@@ -8,27 +14,27 @@ let deckId
 
 getDeck()
 
-drawCardsBtn.addEventListener('click', drawCards)
-document.getElementById("new-deck").addEventListener('click', getNewDeck)
+newDeckEl.addEventListener('click', getNewDeck)
+drawCardsEl.addEventListener('click', drawCards)
+
+async function getDeck() {
+    const res = await fetch(`${url}/new/shuffle/`)
+    const data = await res.json()
+    cardsRemainingEl.textContent = data.remaining
+    deckId = data.deck_id
+}
 
 function getNewDeck() {
     window.location.reload(false)
 }
 
-async function getDeck() {
-    const res = await fetch(`${url}/new/shuffle/`)
-    const data = await res.json()
-    cardsRemainingText.textContent = data.remaining
-    deckId = data.deck_id
-}
-
 async function drawCards() {
     const res = await fetch(`${url}/${deckId}/draw/?count=2`)
     const data = await res.json()
-    cardsRemainingText.textContent = data.remaining
+    cardsRemainingEl.textContent = data.remaining
 
-    document.getElementById("computer-card").innerHTML = `<img src=${data.cards[0].image} class="card" />`
-    document.getElementById("my-card").innerHTML = `<img src=${data.cards[1].image} class="card" />`
+    computerCardEl.innerHTML = `<img src=${data.cards[0].image} class="card" />`
+    myCardEl.innerHTML = `<img src=${data.cards[1].image} class="card" />`
 
     let headerText = determineCardWinner(data.cards[0], data.cards[1])
 
@@ -43,7 +49,7 @@ async function drawCards() {
         }
     }
 
-    document.getElementById("header").textContent = headerText
+    headerEl.textContent = headerText
 }
 
 function determineCardWinner(card1, card2) {
@@ -54,11 +60,11 @@ function determineCardWinner(card1, card2) {
 
     if (card1ValueIndex > card2ValueIndex) {
         computerScore++
-        document.getElementById("computer-score").textContent = computerScore
+        computerScoreEl.textContent = computerScore
         return "Computer wins!"
     } else if (card1ValueIndex < card2ValueIndex) {
         myScore++
-        document.getElementById("my-score").textContent = myScore
+        myScoreEl.textContent = myScore
         return "You win!"
     }
 
